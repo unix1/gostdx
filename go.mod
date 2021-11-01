@@ -1,4 +1,4 @@
-module github.com/unix1/gostdx/v0
+module github.com/unix1/gostdx
 
 go 1.18
 

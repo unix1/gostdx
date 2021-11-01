@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/unix1/gostdx/v0/lists"
+	"github.com/unix1/gostdx/lists"
 )
 
 type testCase[Telem any, Tacc any] struct {

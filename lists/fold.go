@@ -23,7 +23,7 @@ func Fold[T any, Tacc any](fn func(elem T, acc Tacc) Tacc, acc0 Tacc, list []T) 
 // Keep in mind that concurrent multiple goroutines will concurrently access the accumulator.
 func FoldC[T any, Tacc any](fn func(elem T, acc *Tacc) *Tacc, acc *Tacc, list []T, concurrency int) *Tacc {
 	var wg sync.WaitGroup
-	if len(list) > concurrency {
+	if concurrency > len(list) {
 		concurrency = len(list)
 	}
 	ch := make(chan T, concurrency)

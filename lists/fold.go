@@ -30,10 +30,10 @@ func FoldC[T any, Tacc any](fn func(elem T, acc *Tacc) *Tacc, acc *Tacc, list []
 	wg.Add(concurrency)
 	for i := 0; i < concurrency; i++ {
 		go func() {
+			defer wg.Done()
 			for {
 				e, ok := <-ch
 				if !ok {
-					wg.Done()
 					return
 				}
 				acc = fn(e, acc)

@@ -33,7 +33,7 @@ Generic concurrent examples:
 ```go
 acc := int64(0)
 concurrency := 5
-list := []int64{1,2,3,4,5}
+list := []int64{1, 2, 3, 4, 5}
 sumFunc := func(elem int64, acc *int64) *int64 {
     atomic.AddInt64(acc, elem)
     return acc

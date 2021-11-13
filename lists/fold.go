@@ -20,7 +20,8 @@ func Fold[T any, Tacc any](fn func(elem T, acc Tacc) Tacc, acc0 Tacc, list []T) 
 // FoldC is a concurrent version of Fold. It takes an additional concurrency argument that spreads
 // the `fn` calls over specified number of goroutines. If specified concurrency is greater than the
 // length of the list, the additional goroutines will not be started.
-// Keep in mind that concurrent multiple goroutines will concurrently access the accumulator.
+// Keep in mind that multiple goroutines will concurrently access the accumulator; and the
+// accumulator is a pointer.
 func FoldC[T any, Tacc any](fn func(elem T, acc *Tacc) *Tacc, acc *Tacc, list []T, concurrency int) *Tacc {
 	var wg sync.WaitGroup
 	if concurrency > len(list) {

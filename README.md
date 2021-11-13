@@ -5,12 +5,12 @@ Just few extended standard library functions for Golang using generics.
 Prerequsites:
 * Go version 1.18 or greater due to generics.
 
-## lists
+## slices
 
 Import
 
 ```go
-import "github.com/unix1/gostdx/lists"
+import "github.com/unix1/gostdx/slices"
 ```
 
 ### fold (aka reduce)
@@ -20,7 +20,7 @@ Generic sequential fold/reduce example:
 ```go
 list := []int{1,2,3,4,5}
 sumFunc := func(elem, sum int) int { return sum + elem }
-sum := lists.Fold(sumFunc, 0, list)
+sum := slices.Fold(sumFunc, 0, list)
 fmt.Println("sum is:", sum) // sum is 15
 ```
 
@@ -38,7 +38,7 @@ sumFunc := func(elem int64, acc *int64) *int64 {
     atomic.AddInt64(acc, elem)
     return acc
 }
-sum := lists.FoldC(sumFunc, &acc, list, concurrency)
+sum := slices.FoldC(sumFunc, &acc, list, concurrency)
 fmt.Println("sum is:", *sum) // sum is 15
 ```
 
@@ -66,6 +66,6 @@ F := func(e tuple, acc *mapAcc) *mapAcc {
     acc.m[e.v1] = e.v2
     return acc
 }
-m := lists.FoldC(F, acc, list, concurrency)
+m := slices.FoldC(F, acc, list, concurrency)
 fmt.Println("map is:", m.m) // map is: map[k1:v1 k2:v2 k3:v3]
 ```

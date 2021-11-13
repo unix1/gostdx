@@ -1,4 +1,4 @@
-package lists_test
+package slices_test
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/unix1/gostdx/lists"
+	"github.com/unix1/gostdx/slices"
 )
 
 type testCase[Telem any, Tacc any] struct {
@@ -46,7 +46,7 @@ func TestFold(t *testing.T) {
 	for _, tt := range testCases {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			actual := lists.Fold(tt.fn, tt.acc, tt.list)
+			actual := slices.Fold(tt.fn, tt.acc, tt.list)
 			assert.Equal(t, tt.expected, actual)
 		})
 	}
@@ -80,7 +80,7 @@ func TestFoldC(t *testing.T) {
 	for _, tt := range testCases {
 		tt := tt
 		t.Run(fmt.Sprintf("%s (concurrency: %d)", tt.testCase.name, tt.concurrency), func(t *testing.T) {
-			actual := lists.FoldC(tt.testCase.fn, tt.testCase.acc, tt.testCase.list, tt.concurrency)
+			actual := slices.FoldC(tt.testCase.fn, tt.testCase.acc, tt.testCase.list, tt.concurrency)
 			assert.Equal(t, tt.testCase.expected, actual)
 		})
 	}
@@ -121,7 +121,7 @@ func TestFoldCMap(t *testing.T) {
 	for _, tt := range testCases {
 		tt := tt
 		t.Run(fmt.Sprintf("%s (concurrency: %d)", tt.testCase.name, tt.concurrency), func(t *testing.T) {
-			actual := lists.FoldC(tt.testCase.fn, tt.testCase.acc, tt.testCase.list, tt.concurrency)
+			actual := slices.FoldC(tt.testCase.fn, tt.testCase.acc, tt.testCase.list, tt.concurrency)
 			assert.Equal(t, tt.testCase.expected, actual)
 		})
 	}

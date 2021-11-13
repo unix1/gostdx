@@ -18,7 +18,7 @@ import "github.com/unix1/gostdx/slices"
 Generic sequential fold/reduce example:
 
 ```go
-list := []int{1,2,3,4,5}
+list := []int{1, 2, 3, 4, 5}
 sumFunc := func(elem, sum int) int { return sum + elem }
 sum := slices.Fold(sumFunc, 0, list)
 fmt.Println("sum is:", sum) // sum is 15

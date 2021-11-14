@@ -5,7 +5,12 @@ Just few extended standard library functions for Golang using generics.
 Prerequsites:
 * Go version 1.18 or greater due to generics.
 
+# usage
+
 ## slices
+
+<details>
+  <summary>Expand for slices examples</summary>
 
 Import
 
@@ -13,9 +18,9 @@ Import
 import "github.com/unix1/gostdx/slices"
 ```
 
-### fold (aka reduce)
+### fold
 
-Generic sequential fold/reduce example:
+Generic sequential fold:
 
 ```go
 list := []int{1, 2, 3, 4, 5}
@@ -26,7 +31,7 @@ fmt.Println("sum is:", sum) // sum is 15
 
 ### concurrent fold
 
-Generic concurrent examples:
+Generic concurrent fold:
 
 #### lock-free
 
@@ -69,3 +74,45 @@ F := func(e tuple, acc *mapAcc) *mapAcc {
 m := slices.FoldC(F, acc, list, concurrency)
 fmt.Println("map is:", m.m) // map is: map[k1:v1 k2:v2 k3:v3]
 ```
+
+</details>
+
+## maps
+
+<details>
+  <summary>Expand for maps examples</summary>
+
+Import
+
+```go
+import "github.com/unix1/gostdx/maps"
+```
+
+### fold
+
+Generic sequential fold:
+
+```go
+m := map[int]int{1: 10, 2: 20, 3: 30}
+sumFunc := func(k int, v int, acc int) int { return acc + k*v }
+sum := maps.Fold(sumFunc, 0, m)
+fmt.Println("sum of k*v is", sum) // sum of k*v is 140
+```
+
+### concurrent fold
+
+Generic concurrent fold:
+
+```go
+acc := int64(0)
+concurrency := 3
+m := map[int64]int64{1: 10, 2: 20, 3: 30}
+sumFunc := func(k int64, v int64, acc *int64) *int64 {
+    atomic.AddInt64(acc, k*v)
+    return acc
+}
+sum := maps.FoldC(sumFunc, &acc, m, concurrency)
+fmt.Println("sum of k*v is", *sum) // sum of k*v is 140
+```
+
+</details>

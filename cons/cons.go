@@ -7,7 +7,7 @@ type registers[T any] struct {
 
 type cons[T any] func() registers[T]
 
-func New[T any](vals ...T) cons[T] {
+func Cons[T any](vals ...T) cons[T] {
 	var c cons[T]
 	for i := len(vals) - 1; i >= 0; i-- {
 		c = Append(vals[i], c)

@@ -12,7 +12,6 @@ Prerequsites:
 <details>
   <summary>Expand for slices examples</summary>
 
-Import
 
 ```go
 import "github.com/unix1/gostdx/slices"
@@ -82,7 +81,6 @@ fmt.Println("map is:", m.m) // map is: map[k1:v1 k2:v2 k3:v3]
 <details>
   <summary>Expand for maps examples</summary>
 
-Import
 
 ```go
 import "github.com/unix1/gostdx/maps"

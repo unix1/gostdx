@@ -8,12 +8,12 @@ import (
 )
 
 func TestNewEmpty(t *testing.T) {
-	c := Cons([]int{}...)
+	c := List([]int{}...)
 	assert.Nil(t, c)
 }
 
-func TestNewCons(t *testing.T) {
-	c := Cons(1, 2, 3)
+func TestNewList(t *testing.T) {
+	c := List(1, 2, 3)
 	assert.Equal(t, 1, Car(c))
 	assert.Equal(t, 2, Car(Cdr(c)))
 	assert.Equal(t, 3, Car(Cdr(Cdr(c))))

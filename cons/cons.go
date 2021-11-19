@@ -7,15 +7,15 @@ type registers[T any] struct {
 
 type cons[T any] func() registers[T]
 
-func Cons[T any](vals ...T) cons[T] {
+func List[T any](vals ...T) cons[T] {
 	var c cons[T]
 	for i := len(vals) - 1; i >= 0; i-- {
-		c = Append(vals[i], c)
+		c = Cons(vals[i], c)
 	}
 	return c
 }
 
-func Append[T any](val T, c cons[T]) cons[T] {
+func Cons[T any](val T, c cons[T]) cons[T] {
 	return func() registers[T] {
 		return registers[T]{
 			car: val,

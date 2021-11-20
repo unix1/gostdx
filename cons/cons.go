@@ -1,11 +1,6 @@
 package cons
 
-type registers[T any] struct {
-	car T
-	cdr cons[T]
-}
-
-type cons[T any] func() registers[T]
+type cons[T any] func() (T, cons[T])
 
 func List[T any](vals ...T) cons[T] {
 	var c cons[T]
@@ -16,18 +11,15 @@ func List[T any](vals ...T) cons[T] {
 }
 
 func Cons[T any](val T, c cons[T]) cons[T] {
-	return func() registers[T] {
-		return registers[T]{
-			car: val,
-			cdr: c,
-		}
-	}
+	return func() (T, cons[T]) { return val, c }
 }
 
 func Car[T any](c cons[T]) T {
-	return c().car
+	car, _ := c()
+	return car
 }
 
 func Cdr[T any](c cons[T]) cons[T] {
-	return c().cdr
+	_, cdr := c()
+	return cdr
 }

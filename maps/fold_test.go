@@ -12,7 +12,7 @@ import (
 	"github.com/unix1/gostdx/maps"
 )
 
-type testCase[Tkey comparable, Tval any, Tacc any] struct {
+type foldTestCase[Tkey comparable, Tval any, Tacc any] struct {
 	name     string
 	m        map[Tkey]Tval
 	acc      Tacc
@@ -20,7 +20,7 @@ type testCase[Tkey comparable, Tval any, Tacc any] struct {
 	expected Tacc
 }
 
-type testCaseC[Tkey comparable, Tval any, Tacc any] struct {
+type foldTestCaseC[Tkey comparable, Tval any, Tacc any] struct {
 	name     string
 	m        map[Tkey]Tval
 	acc      *Tacc
@@ -29,12 +29,12 @@ type testCaseC[Tkey comparable, Tval any, Tacc any] struct {
 }
 
 type testCaseWithConcurrency[Tkey comparable, Tval any, Tacc any] struct {
-	testCase    testCaseC[Tkey, Tval, Tacc]
+	testCase    foldTestCaseC[Tkey, Tval, Tacc]
 	concurrency int
 }
 
 func TestFold(t *testing.T) {
-	testCases := []testCase[int, int, int]{
+	testCases := []foldTestCase[int, int, int]{
 		{
 			"simple sum of k*v",
 			map[int]int{1: 10, 2: 20, 3: 30},
@@ -52,8 +52,8 @@ func TestFold(t *testing.T) {
 	}
 }
 
-func newFoldSumTestCase(slow bool) testCaseC[int64, int64, int64] {
-	return testCaseC[int64, int64, int64]{
+func newFoldSumTestCase(slow bool) foldTestCaseC[int64, int64, int64] {
+	return foldTestCaseC[int64, int64, int64]{
 		"simple sum",
 		map[int64]int64{1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10},
 		ptr(int64(0)),
@@ -96,8 +96,8 @@ type tuples struct {
 	t []tuple
 }
 
-func newFoldTuplesToMapTestCase() testCaseC[string, string, tuples] {
-	return testCaseC[string, string, tuples]{
+func newFoldTuplesToMapTestCase() foldTestCaseC[string, string, tuples] {
+	return foldTestCaseC[string, string, tuples]{
 		"simple fold tuples to map, concurrency 1",
 		map[string]string{"k1": "v1", "k2": "v2", "k3": "v3", "k4": "v4", "k5": "v5", "k6": "v6", "k7": "v7", "k8": "v8", "k9": "v9", "k10": "v10"},
 		&tuples{t: []tuple{}},

@@ -12,7 +12,7 @@ import (
 	"github.com/unix1/gostdx/slices"
 )
 
-type testCase[Telem any, Tacc any] struct {
+type foldTestCase[Telem any, Tacc any] struct {
 	name     string
 	list     []Telem
 	acc      Tacc
@@ -20,7 +20,7 @@ type testCase[Telem any, Tacc any] struct {
 	expected Tacc
 }
 
-type testCaseC[Telem any, Tacc any] struct {
+type foldTestCaseC[Telem any, Tacc any] struct {
 	name     string
 	list     []Telem
 	acc      *Tacc
@@ -28,13 +28,20 @@ type testCaseC[Telem any, Tacc any] struct {
 	expected *Tacc
 }
 
-type testCaseWithConcurrency[Telem any, Tacc any] struct {
-	testCase    testCaseC[Telem, Tacc]
+type foldTestCaseWithConcurrency[Telem any, Tacc any] struct {
+	testCase    foldTestCaseC[Telem, Tacc]
 	concurrency int
 }
 
 func TestFold(t *testing.T) {
-	testCases := []testCase[int, int]{
+	testCases := []foldTestCase[int, int]{
+		{
+			"empty list",
+			[]int{},
+			0,
+			func(e int, acc int) int { return acc + e },
+			0,
+		},
 		{
 			"simple sum",
 			[]int{1, 2, 3},
@@ -52,8 +59,8 @@ func TestFold(t *testing.T) {
 	}
 }
 
-func newFoldSumTestCase(slow bool) testCaseC[int64, int64] {
-	return testCaseC[int64, int64]{
+func newFoldSumTestCase(slow bool) foldTestCaseC[int64, int64] {
+	return foldTestCaseC[int64, int64]{
 		"simple sum",
 		[]int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 		ptr(int64(0)),
@@ -70,7 +77,7 @@ func newFoldSumTestCase(slow bool) testCaseC[int64, int64] {
 
 func TestFoldC(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	testCases := []testCaseWithConcurrency[int64, int64]{
+	testCases := []foldTestCaseWithConcurrency[int64, int64]{
 		{newFoldSumTestCase(false), 1},
 		{newFoldSumTestCase(false), 3},
 		{newFoldSumTestCase(false), 10},
@@ -96,8 +103,8 @@ type mapAcc struct {
 	m map[string]string
 }
 
-func newFoldTuplesToMapTestCase() testCaseC[tuple, mapAcc] {
-	return testCaseC[tuple, mapAcc]{
+func newFoldTuplesToMapTestCase() foldTestCaseC[tuple, mapAcc] {
+	return foldTestCaseC[tuple, mapAcc]{
 		"simple fold tuples to map, concurrency 1",
 		[]tuple{{"k1", "v1"}, {"k2", "v2"}, {"k3", "v3"}, {"k4", "v4"}, {"k5", "v5"}, {"k6", "v6"}, {"k7", "v7"}, {"k8", "v8"}, {"k9", "v9"}, {"k10", "v10"}},
 		&mapAcc{m: map[string]string{}},
@@ -113,7 +120,7 @@ func newFoldTuplesToMapTestCase() testCaseC[tuple, mapAcc] {
 
 func TestFoldCMap(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	testCases := []testCaseWithConcurrency[tuple, mapAcc]{
+	testCases := []foldTestCaseWithConcurrency[tuple, mapAcc]{
 		{newFoldTuplesToMapTestCase(), 1},
 		{newFoldTuplesToMapTestCase(), 3},
 		{newFoldTuplesToMapTestCase(), 10},

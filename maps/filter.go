@@ -9,7 +9,7 @@ type kv[Tkey comparable, Tval any] struct {
 	v Tval
 }
 
-// Filter filters out the elements of the given list that don't satisfy the predicate function fn.
+// Filter filters out the elements of the given map that don't satisfy the predicate function fn.
 func Filter[Tkey comparable, Tval any](fn func(key Tkey, val Tval) bool, m map[Tkey]Tval) map[Tkey]Tval {
 	result := make(map[Tkey]Tval)
 	for key, val := range m {

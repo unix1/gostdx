@@ -1,5 +1,9 @@
 package cons
 
+import (
+	"iter"
+)
+
 type cons[T any] func() (T, cons[T])
 
 func List[T any](vals ...T) cons[T] {
@@ -22,4 +26,21 @@ func Car[T any](c cons[T]) T {
 func Cdr[T any](c cons[T]) cons[T] {
 	_, cdr := c()
 	return cdr
+}
+
+func Each[T any](c cons[T]) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		if c == nil {
+			return
+		}
+		v, c := c()
+		for ; ; v, c = c() {
+			if !yield(v) {
+				return
+			}
+			if c == nil {
+				break
+			}
+		}
+	}
 }

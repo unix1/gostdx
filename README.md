@@ -3,7 +3,8 @@
 Just few extended standard library functions for Golang using generics.
 
 Prerequsites:
-* Go version 1.18 or greater due to generics.
+* Go version 1.18 or greater for generics for maps and slices
+* Go version 1.23 or greater due to cons rangefunc (will work with 1.22 `GOEXPERIMENT=rangefunc`).
 
 # usage
 
@@ -111,6 +112,38 @@ sumFunc := func(k int64, v int64, acc *int64) *int64 {
 }
 sum := maps.FoldC(sumFunc, &acc, m, concurrency)
 fmt.Println("sum of k*v is", *sum) // sum of k*v is 140
+```
+
+</details>
+
+## cons
+
+<details>
+  <summary>Expand for cons examples</summary>
+
+Generic cons:
+
+```go
+import . "github.com/unix1/gostdx/cons"
+
+c := List(1, 2, 3)
+fmt.Println("Car(c):", Car(c))                    // 1
+fmt.Println("Car(Cdr(c))", Car(Cdr(c)))           // 2
+fmt.Println("Car(Cdr(Cdr(c)))", Car(Cdr(Cdr(c)))) // 3
+fmt.Println("Cdr(Cdr(Cdr(c)))", Cdr(Cdr(Cdr(c)))) // nil
+```
+
+Generic cons iteration via rangefunc:
+
+```go
+import . "github.com/unix1/gostdx/cons"
+
+c := List(1, 2, 3)
+var s []int
+for v := range Each(c) {
+    s = append(s, v)
+}
+fmt.Println(s) // [1 2 3]
 ```
 
 </details>

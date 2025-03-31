@@ -3,8 +3,11 @@
 Just few extended standard library functions for Golang using generics.
 
 Prerequsites:
-* Go version 1.18 or greater for generics for maps and slices
-* Go version 1.23 or greater due to cons rangefunc (will work with 1.22 `GOEXPERIMENT=rangefunc`).
+* Go version 1.23
+
+Why go 1.23?
+* Requires generics for which minimum version is Go 1.18
+* Requires rangefunc for which minimum version is Go 1.23 (but 1.22 will work with `GOEXPERIMENT=rangefunc`)
 
 # usage
 
@@ -147,3 +150,9 @@ fmt.Println(s) // [1 2 3]
 ```
 
 </details>
+
+# run tests
+
+```
+go test ./...
+```

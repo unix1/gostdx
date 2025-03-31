@@ -1,3 +1,5 @@
+![Go build and tests](https://github.com/unix1/gostdx/actions/workflows/go.yml/badge.svg)
+
 # gostdx
 
 Just few extended standard library functions for Golang using generics.
